@@ -1,5 +1,6 @@
 package com.org.census.migration.controller;
 
+import com.org.census.migration.model.AddBatchResponseDto;
 import com.org.census.migration.model.BatchDetailsDto;
 import com.org.census.migration.model.BatchDetailsRequestDto;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static com.org.census.migration.constant.Constants.ApiPath.*;
 
@@ -23,7 +26,7 @@ public interface BatchDetailsApi {
 
     @PostMapping("/batch/details")
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<Void> saveBatchDetails(@RequestBody BatchDetailsRequestDto batchDetailsRequestDto);
+    ResponseEntity<Void> saveBatchDetails(@Valid @RequestBody BatchDetailsRequestDto batchDetailsRequestDto);
 
     @GetMapping(SOURCE_TARGET_EHR_SERVICE_LINE + CLIENT_NAME + BATCH_NAME + "/details")
     @ResponseStatus(HttpStatus.OK)
@@ -50,4 +53,11 @@ public interface BatchDetailsApi {
                              @PathVariable("processName") String processName,
                              @RequestParam("sourceFile") MultipartFile sourceFile) throws IOException;
 
+    @PostMapping(SOURCE_TARGET_EHR_SERVICE_LINE + CLIENT_NAME + BATCH_NAME)
+    @ResponseStatus(HttpStatus.OK)
+    AddBatchResponseDto initiateTransformation(@PathVariable("sourceEHRName") String sourceEHRName,
+                                               @PathVariable("targetEHRName") String targetEHRName,
+                                               @PathVariable("serviceLine") String serviceLine,
+                                               @PathVariable("clientName") String clientName,
+                                               @PathVariable("batchName") String batchName);
 }

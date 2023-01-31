@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -30,12 +31,15 @@ public class Processes {
     )
     private UUID processId;
 
+    @NotNull
     @Column(name = "process_name")
     private String processName;
 
+    @NotNull
     @Column(name = "file_path")
     private String filePath;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id", referencedColumnName = "batchId")
     @JsonIgnoreProperties("processesList")

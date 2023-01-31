@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -31,11 +32,15 @@ public class ErrorDTO {
     @Valid
     private final List<ErrorMessageDTO> warnings;
 
-    public ErrorDTO(ErrorCode errorCode) {
-        this(errorCode, "", "");
+    public ErrorDTO(ErrorCode errorCode, String detail, String trace_id) {
+        this.code = errorCode.name();
+        this.description = detail;
+        traceId = trace_id;
+        errors = new ArrayList<>();
+        warnings = new ArrayList<>();
     }
 
-    public ErrorDTO(ErrorCode errorCode, String detail, String traceId) {
+    public ErrorDTO(ErrorCode errorCode, String detail, List<String> errorList, String traceId) {
         Assert.notNull(errorCode, "errorCode must not be null");
         this.code = errorCode.name();
         this.description = errorCode.getDescription();
@@ -46,6 +51,9 @@ public class ErrorDTO {
         }
         this.traceId = traceId;
         errors = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(errorList)) {
+            errorList.forEach(error -> this.errors.add(new ErrorMessageDTO(error)));
+        }
         warnings = new ArrayList<>();
     }
 

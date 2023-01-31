@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -38,29 +39,36 @@ public class BatchDetails {
     )
     private UUID batchId;
 
+    @NotNull
     @Column(name = "source_ehr_name")
     private String sourceEhrName;
 
+    @NotNull
     @Column(name = "target_ehr_name")
     private String targetEhrName;
 
+    @NotNull
     @Column(name = "service_line")
     private String serviceLine;
 
+    @NotNull
     @Column(name = "client_name")
     private String clientName;
 
+    @NotNull
     @Column(name = "batch_name")
     private String batchName;
 
+    @NotNull
     @Column(name = "go_live_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/YYYY")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date goLiveDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "batchDetails", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("batchDetails")
     private List<Processes> processesList = new ArrayList<>();
 
+    @NotNull
     @Column(name = "status")
     private String status;
 

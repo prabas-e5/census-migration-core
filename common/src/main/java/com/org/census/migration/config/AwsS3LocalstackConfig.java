@@ -19,9 +19,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.org.census.migration.constant.Constants.SpringProfileNames.LOCAL;
+
 @Slf4j
 @Configuration
-@Profile({"local"})
+@Profile({LOCAL})
 public class AwsS3LocalstackConfig {
 
     @Value("${aws.localstack.s3.url:http://localhost:14572}")

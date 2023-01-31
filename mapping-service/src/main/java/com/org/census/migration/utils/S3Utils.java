@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static com.org.census.migration.constant.Constants.CommonConstants.*;
+
 @Component
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,12 +25,12 @@ public class S3Utils {
     public static boolean uploadFile(AmazonS3 s3Client, String s3BucketName,String filePath, String fileName, MultipartFile file) {
         try {
             if(null == file || file.isEmpty()) {
-                throw new ServiceException(" File is not uploaded");
+                throw new ServiceException("File is not uploaded");
             }
             TransferManager transferManager = TransferManagerBuilder.standard().withS3Client(s3Client).build();
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
-            Upload upload = transferManager.upload(s3BucketName, filePath + "/" + fileName, file.getInputStream(), objectMetadata);
+            Upload upload = transferManager.upload(s3BucketName, filePath.replace(SPACE, UNDERSCORE) + PATH_SEPARATOR + fileName.replace(SPACE, UNDERSCORE), file.getInputStream(), objectMetadata);
             upload.waitForCompletion();
             return true;
         } catch(AmazonClientException | IOException e) {

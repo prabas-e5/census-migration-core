@@ -62,10 +62,10 @@ CREATE TABLE batch_details(
         source_ehr_name TEXT NOT NULL,
         target_ehr_name TEXT NOT NULL,
         service_line TEXT NOT NULL,
-        client_name TEXT,
-        batch_name TEXT,
+        client_name TEXT NOT NULL,
+        batch_name TEXT NOT NULL,
         go_live_date DATE NOT NULL,
-        status TEXT,
+        status TEXT NOT NULL,
         created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
         created_by TEXT,
         modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,
@@ -75,6 +75,6 @@ CREATE TABLE batch_details(
 CREATE TABLE processes(
         process_id UUID NOT NULL PRIMARY KEY,
         process_name TEXT NOT NULL,
-        file_path TEXT,
-        batch_id UUID
+        file_path TEXT NOT NULL,
+        batch_id UUID NOT NULL
 );

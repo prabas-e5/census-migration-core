@@ -40,7 +40,29 @@ public class Constants {
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Error {
+    public static class ErrorMessage {
         public static final String VALIDATION_FAILED_DETAIL = "Validation failed";
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class SpringProfileNames {
+        public static final String TEST = "test";
+
+        public static final String LOCAL = "local";
+
+        public static final String JENKINS = "jenkins";
+
+        public static final String INT_TEST = "int";
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CommonConstants {
+
+        public static final String PATH_SEPARATOR = "/";
+
+        public static final String SPACE = " ";
+
+        public static final String UNDERSCORE = "_";
+
     }
 }

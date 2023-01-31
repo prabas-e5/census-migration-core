@@ -1,5 +1,6 @@
 package com.org.census.migration.service;
 
+import com.org.census.migration.model.AddBatchResponseDto;
 import com.org.census.migration.model.BatchDetailsDto;
 import com.org.census.migration.model.BatchDetailsRequestDto;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,4 +21,7 @@ public interface BatchDetailsService {
     boolean uploadFileValidation(String sourceEHRName, String targetEHRName, String serviceLine,
                                  String clientName, String batchName, String processName,
                                  MultipartFile file) throws IOException;
+
+    AddBatchResponseDto initiateTransformation(String sourceEHRName, String targetEHRName, String serviceLine,
+                                               String clientName, String batchName);
 }

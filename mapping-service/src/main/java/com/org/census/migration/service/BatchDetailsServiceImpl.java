@@ -3,6 +3,7 @@ package com.org.census.migration.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.org.census.migration.exception.ValidationException;
 import com.org.census.migration.mapper.ModelEntityMapper;
+import com.org.census.migration.model.AddBatchResponseDto;
 import com.org.census.migration.model.BatchDetails;
 import com.org.census.migration.model.BatchDetailsDto;
 import com.org.census.migration.model.BatchDetailsRequestDto;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.org.census.migration.constant.Constants.CommonConstants.PATH_SEPARATOR;
 
 @Service
 public class BatchDetailsServiceImpl implements BatchDetailsService{
@@ -82,7 +85,7 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
                                         MultipartFile file) throws IOException {
         boolean isFileValid = fileValidation(sourceEHRName, targetEHRName, serviceLine, clientName, processName, file);
         if(isFileValid) {
-            String filePath = clientName + "/" + processName + "/" + batchName;
+            String filePath = clientName + PATH_SEPARATOR + processName + PATH_SEPARATOR + batchName;
             boolean isFileUpload = S3Utils.uploadFile(s3Client, s3BucketName, filePath, file.getOriginalFilename(), file);
             if(isFileUpload) {
                 BatchDetails batchDetails = batchDetailsRepository
@@ -105,6 +108,14 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
             }
         }
         return false;
+    }
+
+    @Override
+    public AddBatchResponseDto initiateTransformation(String sourceEHRName, String targetEHRName, String serviceLine,
+                                                      String clientName, String batchName) {
+        BatchDetails batchDetails = batchDetailsRepository.findBySourceEhrNameAndTargetEhrNameAndServiceLineAndClientNameAndBatchName(
+                sourceEHRName, targetEHRName, serviceLine, clientName, batchName);
+        return AddBatchResponseDto.builder().requestId(batchDetails.getBatchId()).build();
     }
 
     private boolean fileValidation(String sourceEHRName, String targetEHRName, String serviceLine,

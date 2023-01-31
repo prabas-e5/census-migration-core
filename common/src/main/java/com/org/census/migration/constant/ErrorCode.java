@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
 
-    E1030000("Bad request. Please refer to the API documentation", HttpStatus.BAD_REQUEST),
+    E1030000("Invalid Argument specified.", HttpStatus.BAD_REQUEST),
     E1030001("Resource not found", HttpStatus.NOT_FOUND),
     E1030003("This entity already exists", HttpStatus.CONFLICT),
     E1030004("Not authorized to perform this operation", HttpStatus.FORBIDDEN),
